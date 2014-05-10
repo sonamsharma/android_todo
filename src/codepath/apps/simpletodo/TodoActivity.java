@@ -1,6 +1,10 @@
 package codepath.apps.simpletodo;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.apache.commons.io.FileUtils;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,7 +29,7 @@ public class TodoActivity extends Activity {
         setContentView(R.layout.activity_todo);
         etNewItem = (EditText) findViewById(R.id.etNewItem);
         lvItems = (ListView) findViewById(R.id.ivItems);
-        populateArrayItems();
+        readItems();
         todoAdapter = new ArrayAdapter<String>(getBaseContext(),
         		android.R.layout.simple_list_item_1, todoItems);
         lvItems.setAdapter(todoAdapter);
@@ -43,23 +47,40 @@ public class TodoActivity extends Activity {
 				// TODO Auto-generated method stub
 				todoItems.remove(pos);
 				todoAdapter.notifyDataSetChanged();
+				writeItems();
 				return true;
 			}
 			
 		});
 	}
 
-	private void populateArrayItems(){
-    	todoItems = new ArrayList<String>();
-    	todoItems.add("item 1");
-    	todoItems.add("item 2");
-    	todoItems.add("item 3");
-    }
+	
     
     public void onAddedItem(View v){
     	String itemText = etNewItem.getText().toString();
     	todoAdapter.add(itemText);
     	etNewItem.setText("");
+    	writeItems();
+    }
+    
+    private void readItems() {
+    	File fileDir = getFilesDir();
+    	File todofile = new File(fileDir, "todo.txt");
+    	try {
+    		todoItems = new ArrayList<String>(FileUtils.readLines(todofile));
+    	}catch(IOException e){
+    		todoItems = new ArrayList<String>();
+    	}
+    }
+    
+    private void writeItems() {
+    	File fileDir = getFilesDir();
+    	File todoFile = new File(fileDir, "todo.txt");
+    	try {
+    		FileUtils.writeLines(todoFile,todoItems);
+    	}catch (IOException e){
+    		e.printStackTrace();
+    	}
     }
 
     @Override
