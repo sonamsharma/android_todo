@@ -11,10 +11,13 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class TodoActivity extends Activity {
 	//ArrayList<String> items;
@@ -52,7 +55,24 @@ public class TodoActivity extends Activity {
 			}
 			
 		});
+		
+		///// adding the code for one click open new activity 
+		lvItems.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View item, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				String textInItem = ((TextView)item).getText().toString();
+				Toast.makeText(getBaseContext(), textInItem, Toast.LENGTH_LONG).show();
+			}
+			
+		});
+		
+		/////end of changes 
 	}
+    
+    
 
 	
     
