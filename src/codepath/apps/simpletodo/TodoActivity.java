@@ -91,9 +91,11 @@ public class TodoActivity extends Activity {
          // Extract name value from result extras
          String name = data.getExtras().getString("name");
          String posi = data.getExtras().getString("position");
-         // Toast the name to display temporarily on screen
-         Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-         Toast.makeText(this, posi, Toast.LENGTH_SHORT).show();
+         int editedposition = Integer.parseInt(posi);
+         //todoItems.add(editedposition, name);
+         //todoItems.remove(editedposition+1);
+         todoItems.set(editedposition, name);
+         writeItems();
       }
     }
     
