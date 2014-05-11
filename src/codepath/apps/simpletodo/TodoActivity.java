@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,13 +59,14 @@ public class TodoActivity extends Activity {
 		
 		///// adding the code for one click open new activity 
 		lvItems.setOnItemClickListener(new OnItemClickListener(){
-
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View item, int pos,
 					long id) {
 				// TODO Auto-generated method stub
-				String textInItem = ((TextView)item).getText().toString();
-				Toast.makeText(getBaseContext(), textInItem, Toast.LENGTH_LONG).show();
+				/*String textInItem = ((TextView)item).getText().toString();
+				Toast.makeText(getBaseContext(), textInItem, Toast.LENGTH_LONG).show();*/
+				launchEditItemView(item, pos);
+			
 			}
 			
 		});
@@ -76,7 +78,16 @@ public class TodoActivity extends Activity {
 
 	
     
-    public void onAddedItem(View v){
+    public void launchEditItemView(View item, int pos) {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(TodoActivity.this, EditItemActivity.class);
+		String textInItem = ((TextView)item).getText().toString();
+		i.putExtra("text", textInItem);
+		//i.putExtra("position",pos);
+		startActivity(i);
+	}
+
+	public void onAddedItem(View v){
     	String itemText = etNewItem.getText().toString();
     	todoAdapter.add(itemText);
     	etNewItem.setText("");
