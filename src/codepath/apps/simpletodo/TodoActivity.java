@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TodoActivity extends Activity {
+	private final int REQUEST_CODE = 20;
 	//ArrayList<String> items;
 	private ArrayList<String> todoItems;
 	private ArrayAdapter<String> todoAdapter;
@@ -72,20 +73,30 @@ public class TodoActivity extends Activity {
 		});
 		
 		/////end of changes 
-	}
-    
-    
-
-	
-    
+	} 
     public void launchEditItemView(View item, int pos) {
 		// TODO Auto-generated method stub
 		Intent i = new Intent(TodoActivity.this, EditItemActivity.class);
 		String textInItem = ((TextView)item).getText().toString();
 		i.putExtra("text", textInItem);
-		//i.putExtra("position",pos);
-		startActivity(i);
+		i.putExtra("position",Integer.toString(pos));
+		//startActivity(i);
+		startActivityForResult(i,REQUEST_CODE);
 	}
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      // REQUEST_CODE is defined above
+      if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+         // Extract name value from result extras
+         String name = data.getExtras().getString("name");
+         String posi = data.getExtras().getString("position");
+         // Toast the name to display temporarily on screen
+         Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+         Toast.makeText(this, posi, Toast.LENGTH_SHORT).show();
+      }
+    }
+    
 
 	public void onAddedItem(View v){
     	String itemText = etNewItem.getText().toString();
