@@ -95,6 +95,7 @@ public class TodoActivity extends Activity {
          //todoItems.add(editedposition, name);
          //todoItems.remove(editedposition+1);
          todoItems.set(editedposition, name);
+         todoAdapter.notifyDataSetChanged();
          writeItems();
       }
     }
